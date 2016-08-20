@@ -132,12 +132,6 @@
     <Content Include="HowsTo\EntityFramework.txt" />
     <Content Include="Core\Models\Security\Security_ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\pisa-utils\PisaUtils\PisaUtils.csproj">
-      <Project>{5712dfab-386a-482d-9d4e-f736940e6385}</Project>
-      <Name>PisaUtils</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
