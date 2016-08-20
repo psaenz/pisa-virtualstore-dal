@@ -1,0 +1,5 @@
+﻿Rebuilt the Database with your models:
+- delete the database
+- remove all the files from the Migrations folder
+- run Enable-Migrations -ProjectName VirtualStoreDAL -StartUpProjectName VirtualStoreDALTest -Verbose
+- run the tool and you will see the database is create when it is hit by first time

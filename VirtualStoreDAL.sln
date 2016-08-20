@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualStoreDALTest", "VirtualStoreDALTest\VirtualStoreDALTest.csproj", "{5C1C9845-D269-4FCD-9515-E0A903585A41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualStoreDAL", "VirtualStoreDAL\VirtualStoreDAL.csproj", "{B80B2976-7962-492F-A007-B93A12E03EA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PisaUtils", "..\pisa-utils\PisaUtils\PisaUtils.csproj", "{5712DFAB-386A-482D-9D4E-F736940E6385}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C1C9845-D269-4FCD-9515-E0A903585A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C1C9845-D269-4FCD-9515-E0A903585A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C1C9845-D269-4FCD-9515-E0A903585A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C1C9845-D269-4FCD-9515-E0A903585A41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80B2976-7962-492F-A007-B93A12E03EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80B2976-7962-492F-A007-B93A12E03EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80B2976-7962-492F-A007-B93A12E03EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80B2976-7962-492F-A007-B93A12E03EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5712DFAB-386A-482D-9D4E-F736940E6385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5712DFAB-386A-482D-9D4E-F736940E6385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5712DFAB-386A-482D-9D4E-F736940E6385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5712DFAB-386A-482D-9D4E-F736940E6385}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

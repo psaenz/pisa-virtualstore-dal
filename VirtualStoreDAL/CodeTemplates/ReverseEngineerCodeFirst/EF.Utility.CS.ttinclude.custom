@@ -1,0 +1,66 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Entity.Design" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq"#>
+<#@ assembly name="EnvDTE"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Data.Metadata.Edm" #>
+<#@ import namespace="System.Data.Mapping" #>
+<#@ import namespace="System.Data.Entity.Design" #>
+<#@ import namespace="System.CodeDom" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="Microsoft.CSharp"#>
+<#@ import namespace="System.Text"#>
+<#+
+
+/// <summary>
+/// Responsible for helping to create source code that is
+/// correctly formated and functional
+///  C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Entity Framework Tools\Templates\Includes
+/// </summary>
+public class CustomCodeGeneration
+{
+public string PascalCase(StructuralType type)
+{
+	return type == null ? null : PascalCase(type.Name);
+}
+
+public string PascalCase(EdmMember member)
+{
+	return member == null ? null : PascalCase(member.Name);
+}
+
+public string PascalCase(string name)
+{
+	string result = string.Empty;
+	bool upperCase = false;
+	for (int i = 0; i < name.Length; i++)
+	{
+		if (name[i] == ' ' || name[i] == '_')
+			upperCase = true;
+		else{
+			if (upperCase || i == 0)
+			{
+				result += name[i].ToString().ToUpperInvariant();
+				upperCase = false;
+			}
+			else
+				result += name[i];
+		}
+	}
+
+	return result;
+}
+}
+#>

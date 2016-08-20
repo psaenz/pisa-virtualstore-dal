@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B80B2976-7962-492F-A007-B93A12E03EA6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pisa.VirtualStore.Dal</RootNamespace>
+    <AssemblyName>Pisa.VirtualStore.Dal</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Pisa.VirtualStore.Dal.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Pisa.VirtualStore.Dal.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\DbInterceptors\DbCommandInterceptorTrasientErrors.cs" />
+    <Compile Include="Core\DbInterceptors\DbCommandInterceptorLogging.cs" />
+    <Compile Include="Core\Models\Audit\AuditAuthor.cs" />
+    <Compile Include="Core\Models\BaseModel.cs" />
+    <Compile Include="Core\VirtualStoreDalException.cs" />
+    <Compile Include="Core\Models\Archived\ArchivedCalculusBasketDetail.cs" />
+    <Compile Include="Core\Models\Archived\ArchivedCalculusFreeProduct.cs" />
+    <Compile Include="Core\Models\Archived\ArchivedCalculusAppliedOffer.cs" />
+    <Compile Include="Core\Models\Archived\ArchivedCalculusOrder.cs" />
+    <Compile Include="Core\Models\Archived\ArchivedCalculusServiceCost.cs" />
+    <Compile Include="Core\Models\Calculus\CalculusBasketDetail.cs" />
+    <Compile Include="Core\Models\Calculus\CalculusFreeProduct.cs" />
+    <Compile Include="Core\Models\Calculus\CalculusAppliedOffer.cs" />
+    <Compile Include="Core\Models\Calculus\CalculusOrder.cs" />
+    <Compile Include="Core\Models\Calculus\CalculusServiceCost.cs" />
+    <Compile Include="Core\Models\Client\ClientBasket.cs" />
+    <Compile Include="Core\Models\Client\ClientBasketDetail.cs" />
+    <Compile Include="Core\Models\Client\ClientFeedback.cs" />
+    <Compile Include="Core\Models\Contact\Contact.cs" />
+    <Compile Include="Core\Models\Contact\ContactAddress.cs" />
+    <Compile Include="Core\Models\Contact\ContactRegion.cs" />
+    <Compile Include="Core\Models\Contact\ContactType.cs" />
+    <Compile Include="Core\Models\General\GeneralSchedule.cs" />
+    <Compile Include="Core\Models\General\GeneralMedia.cs" />
+    <Compile Include="Core\Models\General\GeneralStatus.cs" />
+    <Compile Include="Core\Models\Offer\Offer.cs" />
+    <Compile Include="Core\Models\Offer\OffersDetail.cs" />
+    <Compile Include="Core\Models\Order\Order.cs" />
+    <Compile Include="Core\Models\Order\OrderSchedule.cs" />
+    <Compile Include="Core\Models\Order\OrderScheduleControl.cs" />
+    <Compile Include="Core\Models\Product\Product.cs" />
+    <Compile Include="Core\Models\Product\ProductBrand.cs" />
+    <Compile Include="Core\Models\Product\ProductType.cs" />
+    <Compile Include="Core\Models\Product\ProductUnitOfMeasure.cs" />
+    <Compile Include="Core\Models\Security\SecurityAccountUser.cs" />
+    <Compile Include="Core\Models\Security\SecurityAction.cs" />
+    <Compile Include="Core\Models\Security\SecurityPassword.cs" />
+    <Compile Include="Core\Models\Security\SecurityPerson.cs" />
+    <Compile Include="Core\Models\Security\SecurityAccount.cs" />
+    <Compile Include="Core\Models\Security\SecurityDefaultProfile.cs" />
+    <Compile Include="Core\Models\Security\SecurityProfile.cs" />
+    <Compile Include="Core\Models\Security\SecurityProfileAction.cs" />
+    <Compile Include="Core\Models\Security\SecurityAccountStore.cs" />
+    <Compile Include="Core\Models\Security\SecurityUser.cs" />
+    <Compile Include="Core\Models\Security\SecurityAccountContact.cs" />
+    <Compile Include="Core\Models\Security\SecurityAccountAddress.cs" />
+    <Compile Include="Core\Models\Service\ServiceByStore.cs" />
+    <Compile Include="Core\Models\Service\ServiceRule.cs" />
+    <Compile Include="Core\Models\Service\ServiceType.cs" />
+    <Compile Include="Core\Models\Service\ServiceZone.cs" />
+    <Compile Include="Core\Models\Store\Store.cs" />
+    <Compile Include="Core\Models\Store\StoreAddress.cs" />
+    <Compile Include="Core\Models\Store\StoreContact.cs" />
+    <Compile Include="Core\Models\Store\StoreProduct.cs" />
+    <Compile Include="Core\Models\Store\StoreZone.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\VirtualStoreDbConfiguration.cs" />
+    <Compile Include="Core\VirtualStoreDbContext.cs" />
+    <Compile Include="Core\VirtualStoreDbInitializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\DbDiagrams\FullDatabase.png" />
+    <Content Include="HowsTo\EntityFramework.txt" />
+    <Content Include="Core\Models\Security\Security_ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\pisa-utils\PisaUtils\PisaUtils.csproj">
+      <Project>{5712dfab-386a-482d-9d4e-f736940e6385}</Project>
+      <Name>PisaUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
