@@ -15,7 +15,8 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     public partial class SecurityDefaultProfile : BaseModel
     {
         [Key]
-        public SecurityProfileType SecurityProfileType { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public SecurityProfileType Id { get; set; }
 
         [NotMapped]
         public int IdSecurityProfile { get; set; }
