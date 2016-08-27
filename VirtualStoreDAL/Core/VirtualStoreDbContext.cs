@@ -6,6 +6,7 @@ namespace Pisa.VirtualStore.Dal.Core
     using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     using Pisa.VirtualStore.Dal.Core.Models;
     using Pisa.VirtualStore.Dal.Core.Models.Archived;
     using Pisa.VirtualStore.Dal.Core.Models.Audit;
@@ -20,6 +21,9 @@ namespace Pisa.VirtualStore.Dal.Core
     using Pisa.VirtualStore.Dal.Core.Models.Service;
     using Pisa.VirtualStore.Dal.Core.Models.Store;
     using System.Data.Entity.ModelConfiguration;
+    using System.Data.Entity.ModelConfiguration.Configuration;
+    using System.Reflection;
+    using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Linq.Expressions;
 
     /// <summary>
@@ -32,7 +36,7 @@ namespace Pisa.VirtualStore.Dal.Core
     public partial class VirtualStoreDbContext : DbContext
     {
 
-        private Type _baseModelType = typeof(BaseModel);
+        private Type _baseAuditableModelType = typeof(BaseAuditableModel);
         private static AuditAuthor _fakeUserContext = new AuditAuthor() { Id = -200, IdSecurityUser=-200 };
 
         public AuditAuthor CurrentAuthor { get; set; }
@@ -58,11 +62,22 @@ namespace Pisa.VirtualStore.Dal.Core
             // Defines the default schema to use
             modelBuilder.HasDefaultSchema("VirtualStore");
 
-            // 1:1 relation between SecurityUser and SecurityAccount
-            modelBuilder.Entity<SecurityUser>().HasOptional<SecurityAccount>(l => l.LastAccountUsed).WithOptionalDependent(c => c.SecurityUserOwner).Map(p => p.MapKey("LastAccountUsedId"));
+            // Let's disable cascade on delete for all the relations
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-            _prepareBaseModel<ProductUnitOfMeasure>(modelBuilder);
+            // Defines primary Keys for all the properties named Id
+            modelBuilder.Properties().Where(p => p.Name == "Id").Configure(p => p.IsKey());
+
+            _prepareBaseModel<SecurityUser>(modelBuilder);
             _prepareBaseModel<SecurityPerson>(modelBuilder);
+            _prepareBaseModel<ProductUnitOfMeasure>(modelBuilder);
+
+            // Lets now define which relations are options
+            {
+                // SecurityUser.LastAccountUsed should be optional
+                modelBuilder.Entity<SecurityUser>().HasOptional<SecurityAccount>(l => l.LastAccountUsed).WithOptionalDependent();
+            }
 
             //modelBuilder.Entity<ProductUnitOfMeasure>().HasRequired<AuditAuthor>(c => c.AddedBy).WithRequiredDependent().WillCascadeOnDelete(false);
             //modelBuilder.Entity<ProductUnitOfMeasure>().HasRequired<AuditAuthor>(c => c.UpdatedBy).WithRequiredDependent().WillCascadeOnDelete(false);
@@ -87,13 +102,81 @@ namespace Pisa.VirtualStore.Dal.Core
 
         private void _prepareBaseModel<T>(DbModelBuilder modelBuilder) where T : BaseModel
         {
+            _ignoreNavigationPropertyKeys<T>(modelBuilder);
+            _setRequiredDependent<T>(modelBuilder);
+            //_setPrimaryKeys(modelBuilder);
             //_setRequiredDependentNoCascade<T, AuditAuthor>(modelBuilder, c => c.AddedBy);
             //_setRequiredDependentNoCascade<T, AuditAuthor>(modelBuilder, c => c.UpdatedBy);
+
         }
 
-        private void _setRequiredDependentNoCascade<T, K>(DbModelBuilder modelBuilder, Expression<Func<T, K>> required) where T : class where K : class 
+        /// <summary>
+        /// All the relations in the models have 2 properties:
+        /// - One for the Id only (which is primitive and normally and int)
+        /// - The other is the object it selft, called navigation property.
+        /// 
+        /// In order to prevent EF to create 2 properties per relation, we will
+        /// need to tell to ignore those that represents the Id only.
+        /// 
+        /// For instance, the SecurityUser has 2 properties "IdSecurityPerson" and "SecurityPerson",
+        /// the first one is the primitive value for the relation and the
+        /// second is the navigation property.
+        /// 
+        /// This method looks for all the properties that starts with the word "Id" and configure them 
+        /// to be ignored by the EF.
+        /// 
+        /// Note, primary key property is always called "Id", this shouldn't be ignored, only Id*
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="modelBuilder"></param>
+        private void _ignoreNavigationPropertyKeys<T>(DbModelBuilder modelBuilder) where T : BaseModel
         {
-            modelBuilder.Entity<T>().HasRequired<K>(required).WithRequiredDependent().WillCascadeOnDelete(false);
+            // Using fluent Api this expression would go like this:
+            // - modelBuilder.Entity<SecurityUser>().Ignore(prop => prop.SecurityPerson);
+            // This method does the same in a dynamic way for all the properties starting with Id*
+
+            foreach (PropertyInfo property in typeof(T).GetProperties().Where(p => p.Name.StartsWith("Id") && p.Name != "IdAddedBy" && p.Name != "IdUpdatedBy" && p.Name.Length > 2))
+            {
+                // Takes a reference of the Ignore method for the giving type (T) that represents a model class like SecurityUser
+                var t = typeof(EntityTypeConfiguration<>);
+                t = t.MakeGenericType(typeof(T));
+                MethodInfo method = t.GetMethod("Ignore");
+                MethodInfo genericMethod = method.MakeGenericMethod(property.PropertyType);
+
+                // builds the expression 'x => x.PropertyName', required by the Ignore method
+                ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
+                MemberExpression member = Expression.Property(parameter, property.Name);
+                var selector = Expression.Lambda(member, new ParameterExpression[] { parameter });
+
+                // now calls the method => modelBuilder.Entity<SecurityUser>().Ignore(prop => prop.SecurityPerson);
+                genericMethod.Invoke(modelBuilder.Entity<T>(), new object[] { selector });
+            }
+        }
+
+        private void _setRequiredDependent<T>(DbModelBuilder modelBuilder) where T : class
+        {
+            // modelBuilder.Entity<SecurityUser>().HasRequired<SecurityAccount>(l => l.LastAccountUsed).WithRequiredDependent();
+            IEnumerable<Type> allModels = ModelRegistry.GetInstance().GetAllModels();
+            foreach (PropertyInfo property in typeof(T).GetProperties().Where(p => allModels.Select(m => m.Name).Contains(p.PropertyType.Name)))
+            {
+                // takes a reference of the HasRequired method for the giving type (T) that represents a model class like SecurityUser
+                var t = typeof(EntityTypeConfiguration<>);
+                t = t.MakeGenericType(typeof(T));
+                MethodInfo hasRequiredMethod = t.GetMethod("HasRequired");
+                MethodInfo hasRequiredGenericMethod = hasRequiredMethod.MakeGenericMethod(property.PropertyType);
+
+                // builds the expression 'x => x.PropertyName', required by the HasRequired method
+                ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
+                MemberExpression member = Expression.Property(parameter, property.Name);
+                var selector = Expression.Lambda(member, new ParameterExpression[] { parameter });
+
+                // now calls the method => modelBuilder.Entity<SecurityUser>().HasRequired(x => x.SecurityPerson)
+                var requiredNavigationPropertyConfiguration = hasRequiredGenericMethod.Invoke(modelBuilder.Entity<T>(), new object[] { selector });
+
+                // takes a reference of the method WithRequiredPrincipal parameters less from the RequiredNavigationPropertyConfiguration class
+                MethodInfo withRequiredPrincipalMethod = requiredNavigationPropertyConfiguration.GetType().GetMethods().Where(m => m.Name == "WithRequiredDependent" && m.GetParameters().Length == 0).FirstOrDefault();
+                withRequiredPrincipalMethod.Invoke(requiredNavigationPropertyConfiguration, new object[] { });
+            }
         }
 
         public virtual async Task<int> TrySaveChangesAsync()
@@ -102,20 +185,20 @@ namespace Pisa.VirtualStore.Dal.Core
             {
                 DateTime saveTime = DateTime.UtcNow;
 
-                // Updates the AddedOn date to all the BaseModel entities that will be inserted 
-                foreach (var entry in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added && _baseModelType.IsAssignableFrom(e.Entity.GetType())))
+                // Updates the AddedOn date to all the BaseAuditableModel entities that will be inserted 
+                foreach (var entry in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added && _baseAuditableModelType.IsAssignableFrom(e.Entity.GetType())))
                 {
-                    BaseModel bm = (BaseModel)entry.Entity;
+                    BaseAuditableModel bm = (BaseAuditableModel)entry.Entity;
                     bm.AddedOn = saveTime;
                     bm.UpdatedOn = saveTime;
                     bm.IdAddedBy = CurrentAuthor.Id;
                     bm.IdUpdatedBy = CurrentAuthor.Id;
                 }
 
-                // Updates the UpdatedOn date to all the BaseModel entities that will be updated
-                foreach (var entry in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && _baseModelType.IsAssignableFrom(e.Entity.GetType())))
+                // Updates the UpdatedOn date to all the BaseAuditableModel entities that will be updated
+                foreach (var entry in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && _baseAuditableModelType.IsAssignableFrom(e.Entity.GetType())))
                 {
-                    BaseModel bm = (BaseModel)entry.Entity;
+                    BaseAuditableModel bm = (BaseAuditableModel)entry.Entity;
                     bm.UpdatedOn = saveTime;
                     bm.IdUpdatedBy = CurrentAuthor.Id;
                 }

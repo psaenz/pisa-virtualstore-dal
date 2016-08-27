@@ -12,10 +12,11 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     /// Only administrator could change this
     /// Administrators don't have a profile, they can access everything
     /// </summary>
-    public partial class SecurityDefaultProfile : BaseModel
+    public partial class SecurityDefaultProfile : BaseAuditableModel
     {
         [Key]
-        public SecurityProfileType SecurityProfileType { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public SecurityProfileType Id { get; set; }
 
         [NotMapped]
         public int IdSecurityProfile { get; set; }

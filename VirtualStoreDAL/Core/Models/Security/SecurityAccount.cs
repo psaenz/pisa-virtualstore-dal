@@ -17,7 +17,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using Pisa.VirtualStore.Dal.Core.Models.Service;
     using Pisa.VirtualStore.Dal.Core.Models.Store;
 
-    public partial class SecurityAccount : BaseModel
+    public partial class SecurityAccount : BaseAuditableModel
     {
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

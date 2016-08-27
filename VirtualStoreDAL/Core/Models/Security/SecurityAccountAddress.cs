@@ -7,7 +7,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using System.Data.Entity.Spatial;
     using Pisa.VirtualStore.Dal.Core.Models.Contact;
 
-    public partial class SecurityAccountAddress : BaseModel
+    public partial class SecurityAccountAddress : BaseAuditableModel
     {
         public int Id { get; set; }
 

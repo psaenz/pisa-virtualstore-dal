@@ -24,34 +24,10 @@ namespace Pisa.VirtualStore.Dal.Core.Models
     using Pisa.VirtualStore.Dal.Core.Models.Service;
     using Pisa.VirtualStore.Dal.Core.Models.Store;
 
-    public class BaseModel
+    public class BaseModel : IBaseModel
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
-        [Column(TypeName = "datetime")]
-        public DateTime? AddedOn { get; set; }
-
-        [Required]
-        [Column(TypeName = "datetime")]
-        public DateTime? UpdatedOn { get; set; }
-
-        public int IdAddedBy { get; set; }
-
-        public int IdUpdatedBy { get; set; }
-
-        /*
-        [NotMapped]
-        public int IdAddedBy { get; set; }
-
-        [NotMapped]
-        public int IdUpdatedBy { get; set; }
-
-        public virtual AuditAuthor AddedBy { get; set; }
-
-        public virtual AuditAuthor UpdatedBy { get; set; }
-        */
 
         public T getPropertyValue<T>(string propertyName)
         {

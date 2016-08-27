@@ -7,7 +7,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using System.Data.Entity.Spatial;
     using Pisa.VirtualStore.Dal.Core.Models.General;
 
-    public partial class SecurityUser : BaseModel
+    public partial class SecurityUser : BaseAuditableModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SecurityUser()
@@ -16,21 +16,14 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
 
         public int Id { get; set; }
 
-        [NotMapped]
         public int IdSecurityPerson { get; set; }
 
-        [NotMapped]
         public int IdGeneralStatus { get; set; }
 
-        [NotMapped]
         public int IdLastAccountUsed { get; set; }
 
-        [Required]
-        [StringLength(40)]
         public string User { get; set; }
 
-        [Required]
-        [StringLength(150)]
         public string Password { get; set; }
 
         public bool MustChangeThePassword { get; set; }

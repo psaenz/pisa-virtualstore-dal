@@ -6,7 +6,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class SecurityPassword : BaseModel
+    public partial class SecurityPassword : BaseAuditableModel
     {
         public int Id { get; set; }
 
