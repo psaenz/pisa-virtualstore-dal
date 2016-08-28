@@ -1,3 +1,4 @@
 [submodule "pisa-utils"]
 	path = pisa-utils
-	url = https://github.com/psaenz/pisa-utils
+	url = https://github.com/psaenz/pisa-utils/
+	branch = develop
