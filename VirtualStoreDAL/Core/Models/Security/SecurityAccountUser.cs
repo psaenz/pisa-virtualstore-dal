@@ -6,7 +6,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class SecurityAccountUser : BaseModel
+    public partial class SecurityAccountUser : BaseAuditableModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SecurityAccountUser()

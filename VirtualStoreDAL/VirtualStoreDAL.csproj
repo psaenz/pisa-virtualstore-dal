@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B80B2976-7962-492F-A007-B93A12E03EA6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pisa.VirtualStore.Dal</RootNamespace>
     <AssemblyName>Pisa.VirtualStore.Dal</AssemblyName>
@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Pisa.VirtualStore.Dal.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -59,7 +60,10 @@
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorTrasientErrors.cs" />
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorLogging.cs" />
     <Compile Include="Core\Models\Audit\AuditAuthor.cs" />
+    <Compile Include="Core\Models\BaseAuditableModel.cs" />
+    <Compile Include="Core\Models\IBaseModel.cs" />
     <Compile Include="Core\Models\BaseModel.cs" />
+    <Compile Include="Core\Models\ModelRegistry.cs" />
     <Compile Include="Core\VirtualStoreDalException.cs" />
     <Compile Include="Core\Models\Archived\ArchivedCalculusBasketDetail.cs" />
     <Compile Include="Core\Models\Archived\ArchivedCalculusFreeProduct.cs" />

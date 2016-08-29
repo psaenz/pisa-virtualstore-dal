@@ -17,7 +17,7 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using Pisa.VirtualStore.Dal.Core.Models.Service;
     using Pisa.VirtualStore.Dal.Core.Models.Store;
 
-    public partial class SecurityAccountContact : BaseModel
+    public partial class SecurityAccountContact : BaseAuditableModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }

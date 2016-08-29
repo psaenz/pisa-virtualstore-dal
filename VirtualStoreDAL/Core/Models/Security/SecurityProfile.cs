@@ -7,16 +7,16 @@ namespace Pisa.VirtualStore.Dal.Core.Models.Security
     using System.Data.Entity.Spatial;
     using Pisa.VirtualStore.Dal.Core.Models.General;
 
-    public enum SecurityProfileType
+    public enum SecurityProfileType : int
     {
-        Administrator,
-        Client,
-        Store,
-        Brand,
-        Provider
+        Administrator = 10,
+        Client = 20,
+        Store = 30,
+        Brand = 40,
+        Provider = 50
     }
 
-    public partial class SecurityProfile : BaseModel
+    public partial class SecurityProfile : BaseAuditableModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SecurityProfile()
