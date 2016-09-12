@@ -2,3 +2,7 @@
 	path = pisa-utils
 	url = https://github.com/psaenz/pisa-utils/
 	branch = develop
+[submodule "pisa-virtualstore-model"]
+	path = pisa-virtualstore-model
+	url = https://github.com/psaenz/pisa-virtualstore-model/
+	branch = develop
