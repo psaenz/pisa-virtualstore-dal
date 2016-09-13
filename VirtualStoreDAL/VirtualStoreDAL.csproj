@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pisa.VirtualStore.Dal</RootNamespace>
     <AssemblyName>Pisa.VirtualStore.Dal</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -59,62 +59,7 @@
   <ItemGroup>
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorTrasientErrors.cs" />
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorLogging.cs" />
-    <Compile Include="Core\Models\Audit\AuditAuthor.cs" />
-    <Compile Include="Core\Models\BaseAuditableModel.cs" />
-    <Compile Include="Core\Models\IBaseModel.cs" />
-    <Compile Include="Core\Models\BaseModel.cs" />
-    <Compile Include="Core\Models\ModelRegistry.cs" />
     <Compile Include="Core\VirtualStoreDalException.cs" />
-    <Compile Include="Core\Models\Archived\ArchivedCalculusBasketDetail.cs" />
-    <Compile Include="Core\Models\Archived\ArchivedCalculusFreeProduct.cs" />
-    <Compile Include="Core\Models\Archived\ArchivedCalculusAppliedOffer.cs" />
-    <Compile Include="Core\Models\Archived\ArchivedCalculusOrder.cs" />
-    <Compile Include="Core\Models\Archived\ArchivedCalculusServiceCost.cs" />
-    <Compile Include="Core\Models\Calculus\CalculusBasketDetail.cs" />
-    <Compile Include="Core\Models\Calculus\CalculusFreeProduct.cs" />
-    <Compile Include="Core\Models\Calculus\CalculusAppliedOffer.cs" />
-    <Compile Include="Core\Models\Calculus\CalculusOrder.cs" />
-    <Compile Include="Core\Models\Calculus\CalculusServiceCost.cs" />
-    <Compile Include="Core\Models\Client\ClientBasket.cs" />
-    <Compile Include="Core\Models\Client\ClientBasketDetail.cs" />
-    <Compile Include="Core\Models\Client\ClientFeedback.cs" />
-    <Compile Include="Core\Models\Contact\Contact.cs" />
-    <Compile Include="Core\Models\Contact\ContactAddress.cs" />
-    <Compile Include="Core\Models\Contact\ContactRegion.cs" />
-    <Compile Include="Core\Models\Contact\ContactType.cs" />
-    <Compile Include="Core\Models\General\GeneralSchedule.cs" />
-    <Compile Include="Core\Models\General\GeneralMedia.cs" />
-    <Compile Include="Core\Models\General\GeneralStatus.cs" />
-    <Compile Include="Core\Models\Offer\Offer.cs" />
-    <Compile Include="Core\Models\Offer\OffersDetail.cs" />
-    <Compile Include="Core\Models\Order\Order.cs" />
-    <Compile Include="Core\Models\Order\OrderSchedule.cs" />
-    <Compile Include="Core\Models\Order\OrderScheduleControl.cs" />
-    <Compile Include="Core\Models\Product\Product.cs" />
-    <Compile Include="Core\Models\Product\ProductBrand.cs" />
-    <Compile Include="Core\Models\Product\ProductType.cs" />
-    <Compile Include="Core\Models\Product\ProductUnitOfMeasure.cs" />
-    <Compile Include="Core\Models\Security\SecurityAccountUser.cs" />
-    <Compile Include="Core\Models\Security\SecurityAction.cs" />
-    <Compile Include="Core\Models\Security\SecurityPassword.cs" />
-    <Compile Include="Core\Models\Security\SecurityPerson.cs" />
-    <Compile Include="Core\Models\Security\SecurityAccount.cs" />
-    <Compile Include="Core\Models\Security\SecurityDefaultProfile.cs" />
-    <Compile Include="Core\Models\Security\SecurityProfile.cs" />
-    <Compile Include="Core\Models\Security\SecurityProfileAction.cs" />
-    <Compile Include="Core\Models\Security\SecurityAccountStore.cs" />
-    <Compile Include="Core\Models\Security\SecurityUser.cs" />
-    <Compile Include="Core\Models\Security\SecurityAccountContact.cs" />
-    <Compile Include="Core\Models\Security\SecurityAccountAddress.cs" />
-    <Compile Include="Core\Models\Service\ServiceByStore.cs" />
-    <Compile Include="Core\Models\Service\ServiceRule.cs" />
-    <Compile Include="Core\Models\Service\ServiceType.cs" />
-    <Compile Include="Core\Models\Service\ServiceZone.cs" />
-    <Compile Include="Core\Models\Store\Store.cs" />
-    <Compile Include="Core\Models\Store\StoreAddress.cs" />
-    <Compile Include="Core\Models\Store\StoreContact.cs" />
-    <Compile Include="Core\Models\Store\StoreProduct.cs" />
-    <Compile Include="Core\Models\Store\StoreZone.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,12 +79,15 @@
   <ItemGroup>
     <Content Include="App_Data\DbDiagrams\FullDatabase.png" />
     <Content Include="HowsTo\EntityFramework.txt" />
-    <Content Include="Core\Models\Security\Security_ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pisa-utils\PisaUtils\PisaUtils.csproj">
       <Project>{5712dfab-386a-482d-9d4e-f736940e6385}</Project>
       <Name>PisaUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pisa-virtualstore-model\VirtualStoreModel\VirtualStoreModel.csproj">
+      <Project>{f97584a1-b43e-45e9-911d-e42eca54639e}</Project>
+      <Name>VirtualStoreModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
