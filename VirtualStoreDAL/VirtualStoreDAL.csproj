@@ -198,6 +198,10 @@
     <Content Include="HowsTo\EntityFramework.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\pisa-virtualstore-model\pisa-utils\PisaUtils\PisaUtils.csproj">
+      <Project>{5712dfab-386a-482d-9d4e-f736940e6385}</Project>
+      <Name>PisaUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pisa-virtualstore-model\VirtualStoreModel\VirtualStoreModel.csproj">
       <Project>{f97584a1-b43e-45e9-911d-e42eca54639e}</Project>
       <Name>VirtualStoreModel</Name>

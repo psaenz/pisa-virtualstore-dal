@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CRUD\BaseCRUDTests.cs" />
     <Compile Include="Factories\Base\BaseEntityFactory.cs" />
     <Compile Include="Factories\Contact\ContactRegionFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
