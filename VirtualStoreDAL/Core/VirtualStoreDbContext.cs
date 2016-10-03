@@ -21,11 +21,15 @@ namespace Pisa.VirtualStore.Dal.Core
     using Pisa.VirtualStore.Models.Security;
     using Pisa.VirtualStore.Models.Service;
     using Pisa.VirtualStore.Models.Store;
+    using Pisa.VirtualStore.Dal.Core.EntityConfigurations.Archived;
     using System.Data.Entity.ModelConfiguration;
     using System.Data.Entity.ModelConfiguration.Configuration;
     using System.Reflection;
     using System.Data.Entity.ModelConfiguration.Conventions;
+    using System.Data.Entity.ModelConfiguration.Configuration;
     using System.Linq.Expressions;
+    using Common.Logging;
+    using System.Data.Entity.Infrastructure;
 
     /// <summary>
     /// Extends the System.Data.Entity to represent a combination of the Unit Of Work and Repository
@@ -36,9 +40,13 @@ namespace Pisa.VirtualStore.Dal.Core
     /// 
     public partial class VirtualStoreDbContext : DbContext
     {
+        private static readonly ILog _log = LogManager.GetLogger(
+           MethodBase.GetCurrentMethod().DeclaringType
+        );
 
-        private Type _baseAuditableModelType = typeof(BaseAuditableModel);
-        private static AuditAuthor _fakeUserContext = new AuditAuthor() { Id = -200, IdSecurityUser=-200 };
+        private Type _baseModelType = typeof(IBaseModel);
+        private Type _baseAuditableModelType = typeof(IBaseAuditableModel);
+        private static AuditAuthor _fakeUserContext = new AuditAuthor() { Id = -200, SecurityUserId=-200 };
 
         public AuditAuthor CurrentAuthor { get; set; }
 
@@ -66,18 +74,101 @@ namespace Pisa.VirtualStore.Dal.Core
             // Let's disable cascade on delete for all the relations
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            
+            Configuration.AutoDetectChangesEnabled = false;
 
-            // Defines primary Keys for all the properties named Id
-            modelBuilder.Properties().Where(p => p.Name == "Id").Configure(p => p.IsKey());
+            modelBuilder.Configurations.AddFromAssembly(typeof(ArchivedCalculusAppliedOfferEntityConfiguration).Assembly);
 
-            _prepareBaseModel<SecurityUser>(modelBuilder);
-            _prepareBaseModel<SecurityPerson>(modelBuilder);
-            _prepareBaseModel<ProductUnitOfMeasure>(modelBuilder);
+            {
+                #region configuring Archived namespace
+                    _prepareBaseModel<ArchivedCalculusAppliedOffer>(modelBuilder);
+                    _prepareBaseModel<ArchivedCalculusBasketDetail>(modelBuilder);
+                    _prepareBaseModel<ArchivedCalculusFreeProduct>(modelBuilder);
+                    _prepareBaseModel<ArchivedCalculusOrder>(modelBuilder);
+                    _prepareBaseModel<ArchivedCalculusServiceCost>(modelBuilder);
+                #endregion
+
+                #region configuring Calculus namespace
+                    _prepareBaseModel<CalculusAppliedOffer>(modelBuilder);
+                    _prepareBaseModel<CalculusBasketDetail>(modelBuilder);
+                    _prepareBaseModel<CalculusFreeProduct>(modelBuilder);
+                    _prepareBaseModel<CalculusOrder>(modelBuilder);
+                    _prepareBaseModel<CalculusServiceCost>(modelBuilder);
+                #endregion
+
+                #region configuring Client namespace
+                    _prepareBaseModel<ClientBasket>(modelBuilder);
+                    _prepareBaseModel<ClientBasketDetail>(modelBuilder);
+                    _prepareBaseModel<ClientFeedback>(modelBuilder);
+                #endregion
+
+                #region configuring Contact namespace
+                    _prepareBaseModel<Contact>(modelBuilder);
+                    _prepareBaseModel<ContactAddress>(modelBuilder);
+                    _prepareBaseModel<ContactRegion>(modelBuilder);
+                    _prepareBaseModel<ContactType>(modelBuilder);
+                #endregion
+
+                #region configuring General namespace
+                    _prepareBaseModel<GeneralMedia>(modelBuilder);
+                    _prepareBaseModel<GeneralSchedule>(modelBuilder);
+                    _prepareBaseModel<GeneralStatus>(modelBuilder);
+                #endregion
+
+                #region configuring Offer namespace
+                    _prepareBaseModel<Offer>(modelBuilder);
+                    _prepareBaseModel<OffersDetail>(modelBuilder);
+                #endregion
+
+                #region configuring Order namespace
+                    _prepareBaseModel<Order>(modelBuilder);
+                    _prepareBaseModel<OrderSchedule>(modelBuilder);
+                    _prepareBaseModel<OrderScheduleControl>(modelBuilder);
+                #endregion
+
+                #region configuring Product namespace
+                    _prepareBaseModel<Product>(modelBuilder);
+                    _prepareBaseModel<ProductBrand>(modelBuilder);
+                    _prepareBaseModel<ProductType>(modelBuilder);
+                    _prepareBaseModel<ProductUnitOfMeasure>(modelBuilder);
+                #endregion
+
+                #region configuring Security namespace
+                    _prepareBaseModel<SecurityAccount>(modelBuilder);
+                    _prepareBaseModel<SecurityAccountAddress>(modelBuilder);
+                    _prepareBaseModel<SecurityAccountContact>(modelBuilder);
+                    _prepareBaseModel<SecurityAccountStore>(modelBuilder);
+                    _prepareBaseModel<SecurityAccountUser>(modelBuilder);
+                    _prepareBaseModel<SecurityAction>(modelBuilder);
+                    _prepareBaseModel<SecurityDefaultProfile>(modelBuilder);
+                    _prepareBaseModel<SecurityPassword>(modelBuilder);
+                    _prepareBaseModel<SecurityPerson>(modelBuilder);
+                    _prepareBaseModel<SecurityProfile>(modelBuilder);
+                    _prepareBaseModel<SecurityProfileAction>(modelBuilder);
+                    _prepareBaseModel<SecurityUser>(modelBuilder);
+                #endregion
+
+                #region configuring Service namespace
+                    _prepareBaseModel<ServiceByStore>(modelBuilder);
+                    _prepareBaseModel<ServiceRule>(modelBuilder);
+                    _prepareBaseModel<ServiceType>(modelBuilder);
+                    _prepareBaseModel<ServiceZone>(modelBuilder);
+                #endregion
+
+                #region configuring Sore namespace
+                    _prepareBaseModel<Store>(modelBuilder);
+                    _prepareBaseModel<StoreAddress>(modelBuilder);
+                    _prepareBaseModel<StoreContact>(modelBuilder);
+                    _prepareBaseModel<StoreProduct>(modelBuilder);
+                    _prepareBaseModel<StoreZone>(modelBuilder);
+                #endregion
+            }
 
             // Lets now define which relations are options
             {
                 // SecurityUser.LastAccountUsed should be optional
-                modelBuilder.Entity<SecurityUser>().HasOptional<SecurityAccount>(l => l.LastAccountUsed).WithOptionalDependent();
+                //modelBuilder.Entity<SecurityUser>().HasOptional<SecurityAccount>(l => l.LastAccountUsed).WithOptionalDependent().Map(m => m.MapKey("IdLastAccountUsed"));
+                //modelBuilder.Entity<SecurityUser>().HasOptional(l => l.LastAccountUsed); //.WithOptionalPrincipal().Map(fk => fk.MapKey("IdLastAccountUsed"));
             }
 
             //modelBuilder.Entity<ProductUnitOfMeasure>().HasRequired<AuditAuthor>(c => c.AddedBy).WithRequiredDependent().WillCascadeOnDelete(false);
@@ -101,14 +192,10 @@ namespace Pisa.VirtualStore.Dal.Core
             base.OnModelCreating(modelBuilder);
         }
 
-        private void _prepareBaseModel<T>(DbModelBuilder modelBuilder) where T : BaseModel
+        private void _prepareBaseModel<T>(DbModelBuilder modelBuilder) where T : class, IBaseModel
         {
             _ignoreNavigationPropertyKeys<T>(modelBuilder);
-            _setRequiredDependent<T>(modelBuilder);
-            //_setPrimaryKeys(modelBuilder);
-            //_setRequiredDependentNoCascade<T, AuditAuthor>(modelBuilder, c => c.AddedBy);
-            //_setRequiredDependentNoCascade<T, AuditAuthor>(modelBuilder, c => c.UpdatedBy);
-
+            //_setRequiredDependent<T>(modelBuilder);
         }
 
         /// <summary>
@@ -130,22 +217,23 @@ namespace Pisa.VirtualStore.Dal.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="modelBuilder"></param>
-        private void _ignoreNavigationPropertyKeys<T>(DbModelBuilder modelBuilder) where T : BaseModel
+        private void _ignoreNavigationPropertyKeys<T>(DbModelBuilder modelBuilder) where T : class, IBaseModel
         {
             // Using fluent Api this expression would go like this:
-            // - modelBuilder.Entity<SecurityUser>().Ignore(prop => prop.SecurityPerson);
+            // - modelBuilder.Entity<SecurityUser>().Ignore(prop => prop.IdSecurityPerson);
             // This method does the same in a dynamic way for all the properties starting with Id*
 
-            foreach (PropertyInfo property in typeof(T).GetProperties().Where(p => p.Name.StartsWith("Id") && p.Name != "IdAddedBy" && p.Name != "IdUpdatedBy" && p.Name.Length > 2))
+            Type thisType = typeof(T);
+            foreach (PropertyInfo property in thisType.GetProperties().Where(p => p.Name.StartsWith("Id") && p.Name != "IdAddedBy" && p.Name != "IdUpdatedBy" && p.Name.Length > 2))
             {
                 // Takes a reference of the Ignore method for the giving type (T) that represents a model class like SecurityUser
                 var t = typeof(EntityTypeConfiguration<>);
-                t = t.MakeGenericType(typeof(T));
+                t = t.MakeGenericType(thisType);
                 MethodInfo method = t.GetMethod("Ignore");
                 MethodInfo genericMethod = method.MakeGenericMethod(property.PropertyType);
 
                 // builds the expression 'x => x.PropertyName', required by the Ignore method
-                ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
+                ParameterExpression parameter = Expression.Parameter(thisType, "x");
                 MemberExpression member = Expression.Property(parameter, property.Name);
                 var selector = Expression.Lambda(member, new ParameterExpression[] { parameter });
 
@@ -154,30 +242,66 @@ namespace Pisa.VirtualStore.Dal.Core
             }
         }
 
-        private void _setRequiredDependent<T>(DbModelBuilder modelBuilder) where T : class
+        private void _setRequiredDependent<T>(DbModelBuilder modelBuilder) where T : class, IBaseModel
         {
-            // modelBuilder.Entity<SecurityUser>().HasRequired<SecurityAccount>(l => l.LastAccountUsed).WithRequiredDependent();
-            IEnumerable<Type> allModels = ModelRegistry.GetInstance().GetAllModels();
-            foreach (PropertyInfo property in typeof(T).GetProperties().Where(p => allModels.Select(m => m.Name).Contains(p.PropertyType.Name)))
+            // BEFORE: modelBuilder.Entity<SecurityUser>().HasRequired<SecurityAccount>(l => l.LastAccountUsed).WithRequiredDependent().Map(m => m.MapKey("LastAccountUsed_id"));
+            // NOW: modelBuilder.Entity<SecurityUser>().HasRequired<SecurityAccount>(l => l.LastAccountUsed).WithMany().HasForeignKey(fk => fk.IdLastAccountUsed);
+
+            Type tType = typeof(T);
+            IEnumerable<string> allModels = ModelRegistry.GetInstance().GetAllModels().Select(m => m.Name);
+            foreach (PropertyInfo property in tType.GetProperties().Where(p => allModels.Contains(p.PropertyType.Name)))
             {
+                EntityTypeConfiguration<T> entity = modelBuilder.Entity<T>();
+
                 // takes a reference of the HasRequired method for the giving type (T) that represents a model class like SecurityUser
-                var t = typeof(EntityTypeConfiguration<>);
-                t = t.MakeGenericType(typeof(T));
-                MethodInfo hasRequiredMethod = t.GetMethod("HasRequired");
+                MethodInfo hasRequiredMethod = entity.GetType().GetMethod("HasRequired");
                 MethodInfo hasRequiredGenericMethod = hasRequiredMethod.MakeGenericMethod(property.PropertyType);
 
-                // builds the expression 'x => x.PropertyName', required by the HasRequired method
-                ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
+                // builds the expression 'l => l.LastAccountUsed', required by the HasRequired method
+                ParameterExpression parameter = Expression.Parameter(tType, "l");
                 MemberExpression member = Expression.Property(parameter, property.Name);
                 var selector = Expression.Lambda(member, new ParameterExpression[] { parameter });
 
-                // now calls the method => modelBuilder.Entity<SecurityUser>().HasRequired(x => x.SecurityPerson)
-                var requiredNavigationPropertyConfiguration = hasRequiredGenericMethod.Invoke(modelBuilder.Entity<T>(), new object[] { selector });
+                // now calls this method dynamically =>  modelBuilder.Entity<SecurityUser>().HasRequired<SecurityAccount>(l => l.LastAccountUsed)
+                var requiredNavigationPropertyConfiguration = hasRequiredGenericMethod.Invoke(entity, new object[] { selector });
 
-                // takes a reference of the method WithRequiredPrincipal parameters less from the RequiredNavigationPropertyConfiguration class
+                #region Before
+                // takes a reference of the method WithRequiredDependent parameters less from the RequiredNavigationPropertyConfiguration class
+                /*
                 MethodInfo withRequiredPrincipalMethod = requiredNavigationPropertyConfiguration.GetType().GetMethods().Where(m => m.Name == "WithRequiredDependent" && m.GetParameters().Length == 0).FirstOrDefault();
-                withRequiredPrincipalMethod.Invoke(requiredNavigationPropertyConfiguration, new object[] { });
+                var foreignKeyNavigationPropertyConfiguration = withRequiredPrincipalMethod.Invoke(requiredNavigationPropertyConfiguration, new object[] { });
+                */
+
+                // takes the Map method and calls it with the expression 'm => m.MapKey("LastAccountUsed_id")'
+                /*
+                MethodInfo mapMethod = typeof(ForeignKeyNavigationPropertyConfiguration).GetMethod("Map");
+                Action<ForeignKeyAssociationMappingConfiguration> mapKeyParameter = m => m.MapKey(property.Name + "_Id");
+                mapMethod.Invoke(foreignKeyNavigationPropertyConfiguration, new object[] { mapKeyParameter });
+                */
+                #endregion
+
+                // Continues with the rest of the expression : .....WithMany().HasForeignKey(fk => fk.IdLastAccountUsed);
+
+                // Call the WithMany method without parameters dynamically
+                MethodInfo withManyMethod = requiredNavigationPropertyConfiguration.GetType().GetMethods().Where(m => m.Name == "WithMany" && m.GetParameters().Length == 0).FirstOrDefault();
+                var dependentNavigationPropertyConfiguration = withManyMethod.Invoke(requiredNavigationPropertyConfiguration, null);
+
+                // And now the HasForeignKey with the Expression : fk => fk.IdLastAccountUsed as parameter
+                MethodInfo hasForeignKeyMethod = dependentNavigationPropertyConfiguration.GetType().GetMethod("HasForeignKey");
+                hasForeignKeyMethod = hasForeignKeyMethod.MakeGenericMethod(tType.GetProperties().Where(p  => p.Name == "Id" + property.Name).FirstOrDefault().PropertyType); // normally Int32, but just in case find for the type of the idproperty
+
+                ParameterExpression fkParameter = Expression.Parameter(tType, "fk");
+                MemberExpression fkProperty = Expression.Property(fkParameter, property.Name + "_Id");
+                var fkExpression = Expression.Lambda(fkProperty, new ParameterExpression[] { fkParameter });
+
+                // Calls this method dynamically : .HasForeignKey(fk => fk.IdLastAccountUsed);
+                hasForeignKeyMethod.Invoke(dependentNavigationPropertyConfiguration, new object[] { fkExpression });
+                
             }
+        }
+
+        public void Attach<T>(T entity) where T : class, IBaseModel {
+            this.Set<T>().Attach(entity);
         }
 
         public virtual async Task<int> TrySaveChangesAsync()
@@ -192,8 +316,8 @@ namespace Pisa.VirtualStore.Dal.Core
                     BaseAuditableModel bm = (BaseAuditableModel)entry.Entity;
                     bm.AddedOn = saveTime;
                     bm.UpdatedOn = saveTime;
-                    bm.IdAddedBy = CurrentAuthor.Id;
-                    bm.IdUpdatedBy = CurrentAuthor.Id;
+                    bm.AddedById = CurrentAuthor.Id;
+                    bm.UpdatedById = CurrentAuthor.Id;
                 }
 
                 // Updates the UpdatedOn date to all the BaseAuditableModel entities that will be updated
@@ -201,7 +325,7 @@ namespace Pisa.VirtualStore.Dal.Core
                 {
                     BaseAuditableModel bm = (BaseAuditableModel)entry.Entity;
                     bm.UpdatedOn = saveTime;
-                    bm.IdUpdatedBy = CurrentAuthor.Id;
+                    bm.UpdatedById = CurrentAuthor.Id;
                 }
 
                 return await this.SaveChangesAsync();
@@ -212,13 +336,26 @@ namespace Pisa.VirtualStore.Dal.Core
                 {
                     foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
+                        Trace.TraceError("Property: {0} Error: {1}",
                                                 validationError.PropertyName,
                                                 validationError.ErrorMessage);
                     }
                 }
 
-                throw new VirtualStoreDalException("Unexpected error while saving changes.", dbEx); //re-throw exception 
+                throw new VirtualStoreDalException("Validation error while saving changes.", dbEx);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException dbEx) {
+                foreach (DbEntityEntry e in dbEx.Entries)
+                {
+                    Trace.TraceError("Property of type : {0} ", e.Entity + ", is required");
+                }
+
+                //System.Data.Entity.Infrastructure.DbUpdateException
+                //System.Data.DataException
+                throw new VirtualStoreDalException("Update error while saving changes.", dbEx);
+            }
+            catch (Exception dbEx) {
+                throw new VirtualStoreDalException("Unexpected error while saving changes.", dbEx);
             }
         }
 
@@ -262,6 +399,7 @@ namespace Pisa.VirtualStore.Dal.Core
         public virtual DbSet<SecurityPerson> SecurityPersons { get; set; }
         public virtual DbSet<SecurityProfile> SecurityProfiles { get; set; }
         public virtual DbSet<SecurityProfileAction> SecurityProfilesActions { get; set; }
+        public virtual DbSet<SecurityProfileType> SecurityProfileTypes { get; set; }
         public virtual DbSet<SecurityUser> SecurityUsers { get; set; }
         public virtual DbSet<ServiceByStore> ServicesByStores { get; set; }
         public virtual DbSet<ServiceRule> ServicesRules { get; set; }
@@ -926,5 +1064,10 @@ namespace Pisa.VirtualStore.Dal.Core
                 .IsUnicode(false);
         }
         */
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
     }
 }

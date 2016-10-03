@@ -60,7 +60,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="SecurityTests.cs" />
+    <Compile Include="Factories\Base\BaseEntityFactory.cs" />
+    <Compile Include="Factories\Contact\ContactRegionFactory.cs" />
+    <Compile Include="Factories\EntitiesFactory.cs" />
+    <Compile Include="Factories\Security\SecurityActionFactory.cs" />
+    <Compile Include="Factories\Security\SecurityAccountFactory.cs" />
+    <Compile Include="Factories\Security\SecurityProfileActionFactory.cs" />
+    <Compile Include="Factories\Security\SecurityProfileFactory.cs" />
+    <Compile Include="Factories\Security\SecurityPersonFactory.cs" />
+    <Compile Include="Factories\Security\SecurityUserFactory.cs" />
+    <Compile Include="CRUD\SecurityTests.cs" />
+    <Compile Include="Factories\Store\StoreFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

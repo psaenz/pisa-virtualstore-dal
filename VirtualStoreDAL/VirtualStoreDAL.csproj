@@ -36,6 +36,14 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -59,9 +67,118 @@
   <ItemGroup>
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorTrasientErrors.cs" />
     <Compile Include="Core\DbInterceptors\DbCommandInterceptorLogging.cs" />
+    <Compile Include="Core\EntityConfigurations\Archived\ArchivedCalculusBasketDetailEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Archived\ArchivedCalculusFreeProductEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Archived\ArchivedCalculusOrderEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Archived\ArchivedCalculusServiceCostEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Archived\ArchivedCalculusAppliedOfferEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Base\BaseEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Calculus\CalculusBasketDetailEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Calculus\CalculusFreeProductEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Calculus\CalculusOrderEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Calculus\CalculusServiceCostEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Calculus\CalculusAppliedOfferEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Client\ClientBasketDetailEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Client\ClientFeedbackEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Client\ClientBasketEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Contact\ContactAddressEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Contact\ContactRegionEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Contact\ContactEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\General\GeneralScheduleEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Offer\OffersDetailEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Offer\OfferEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Order\OrderScheduleEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Order\OrderEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Product\ProductBrandEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Product\ProductTypeEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Product\ProductEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityPasswordEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityDefaultProfileEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityActionEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityAccountUserEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityAccountStoreEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityAccountEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityAccountAddressEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityAccountContactEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityProfileActionEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityProfileEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Security\SecurityUserEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Service\ServiceRuleEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Service\ServiceZoneEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Service\ServiceByStoreEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Store\StoreAddressEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Store\StoreContactEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Store\StoreProductEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Store\StoreZoneEntityConfiguration.cs" />
+    <Compile Include="Core\EntityConfigurations\Store\StoreEntityConfiguration.cs" />
+    <Compile Include="Core\Helpers\BaseStatus.cs" />
+    <Compile Include="Core\Helpers\SecurityProfileTypes.cs" />
+    <Compile Include="Core\Helpers\SecurityProfileStatuses.cs" />
+    <Compile Include="Core\Helpers\SecurityActionStatuses.cs" />
+    <Compile Include="Core\Repositories\Archived\ArchivedCalculusBasketDetailRepository.cs" />
+    <Compile Include="Core\Repositories\Archived\ArchivedCalculusFreeProductRepository.cs" />
+    <Compile Include="Core\Repositories\Archived\ArchivedCalculusOrderRepository.cs" />
+    <Compile Include="Core\Repositories\Archived\ArchivedCalculusServiceCostRepository.cs" />
+    <Compile Include="Core\Repositories\Archived\ArchivedCalculusAppliedOfferRepository.cs" />
+    <Compile Include="Core\Repositories\Audit\AuditAuthorRepository.cs" />
+    <Compile Include="Core\Repositories\Base\BaseRepository.cs" />
+    <Compile Include="Core\Repositories\Base\IBaseRepository.cs" />
+    <Compile Include="Core\Repositories\Calculus\CalculusBasketDetailRepository.cs" />
+    <Compile Include="Core\Repositories\Calculus\CalculusFreeProductRepository.cs" />
+    <Compile Include="Core\Repositories\Calculus\CalculusOrderRepository.cs" />
+    <Compile Include="Core\Repositories\Calculus\CalculusServiceCostRepository.cs" />
+    <Compile Include="Core\Repositories\Calculus\CalculusAppliedOfferRepository.cs" />
+    <Compile Include="Core\Repositories\Client\ClientBasketDetailRepository.cs" />
+    <Compile Include="Core\Repositories\Client\ClientFeedbackRepository.cs" />
+    <Compile Include="Core\Repositories\Client\ClientBasketRepository.cs" />
+    <Compile Include="Core\Repositories\Contact\ContactAddressRepository.cs" />
+    <Compile Include="Core\Repositories\Contact\ContactRegionRepository.cs" />
+    <Compile Include="Core\Repositories\Contact\ContactTypeRepository.cs" />
+    <Compile Include="Core\Repositories\Contact\ContactRepository.cs" />
+    <Compile Include="Core\Repositories\General\GeneralMediaRepository.cs" />
+    <Compile Include="Core\Repositories\General\GeneralScheduleRepository.cs" />
+    <Compile Include="Core\Repositories\General\GeneralStatusRepository.cs" />
+    <Compile Include="Core\Helpers\StoreStatus.cs" />
+    <Compile Include="Core\Helpers\ContactTypes.cs" />
+    <Compile Include="Core\Helpers\ContactRegionStatuses.cs" />
+    <Compile Include="Core\Helpers\SecurityUserStatuses.cs" />
+    <Compile Include="Core\Helpers\SecurityAccountStatuses.cs" />
+    <Compile Include="Core\Repositories\Offer\OffersDetailRepository.cs" />
+    <Compile Include="Core\Repositories\Offer\CalculusAppliedOfferRepository.cs" />
+    <Compile Include="Core\Repositories\Order\OrderScheduleRepository.cs" />
+    <Compile Include="Core\Repositories\Order\OrderScheduleControlRepository.cs" />
+    <Compile Include="Core\Repositories\Order\OrderRepository.cs" />
+    <Compile Include="Core\Repositories\Product\ProductBrandRepository.cs" />
+    <Compile Include="Core\Repositories\Product\ProductTypeRepository.cs" />
+    <Compile Include="Core\Repositories\Product\ProductUnitOfMeasureRepository.cs" />
+    <Compile Include="Core\Repositories\Product\ProductRepository.cs" />
+    <Compile Include="Core\Repositories\RepositoryRegistry.cs" />
+    <Compile Include="Core\Repositories\RepositoryFactory.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityAccountAddressRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityAccountContactRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityAccountStoreRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityAccountUserRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityActionRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityDefaultProfileRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityPasswordRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityProfileRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityProfileActionRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityProfileTypeRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityUserRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityAccountRepository.cs" />
+    <Compile Include="Core\Repositories\Security\SecurityPersonRepository.cs" />
+    <Compile Include="Core\Repositories\Service\ServiceRuleRepository.cs" />
+    <Compile Include="Core\Repositories\Service\ServiceTypeRepository.cs" />
+    <Compile Include="Core\Repositories\Service\ServiceZoneRepository.cs" />
+    <Compile Include="Core\Repositories\Service\ServiceByStoreRepository.cs" />
+    <Compile Include="Core\Repositories\Store\StoreAddressRepository.cs" />
+    <Compile Include="Core\Repositories\Store\StoreContactRepository.cs" />
+    <Compile Include="Core\Repositories\Store\StoreProductRepository.cs" />
+    <Compile Include="Core\Repositories\Store\StoreZoneRepository.cs" />
+    <Compile Include="Core\Repositories\Store\StoreRepository.cs" />
     <Compile Include="Core\VirtualStoreDalException.cs" />
+    <Compile Include="Core\VirtualStoreUnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\VirtualStoreDbConfiguration.cs" />
     <Compile Include="Core\VirtualStoreDbContext.cs" />
@@ -90,6 +207,7 @@
       <Name>VirtualStoreModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
