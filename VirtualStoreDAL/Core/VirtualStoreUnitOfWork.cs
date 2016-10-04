@@ -182,7 +182,7 @@ namespace Pisa.VirtualStore.Dal.Core
         #region Offer Repositories
         public OfferRepository OfferRepository
         {
-            get { return (OfferRepository) GetRepositoryFor<Offer>(); }
+            get { return (OfferRepository) GetRepositoryFor<OfferInfo>(); }
         }
         public OffersDetailRepository OffersDetailRepository
         {
@@ -193,7 +193,7 @@ namespace Pisa.VirtualStore.Dal.Core
         #region Order Repositories
         public OrderRepository OrderRepository
         {
-            get { return (OrderRepository) GetRepositoryFor<Order>(); }
+            get { return (OrderRepository) GetRepositoryFor<OrderInfo>(); }
         }
         public OrderScheduleRepository OrderScheduleRepository
         {
@@ -208,7 +208,7 @@ namespace Pisa.VirtualStore.Dal.Core
         #region Product Repositories
         public ProductRepository ProductRepository
         {
-            get { return (ProductRepository) GetRepositoryFor<Product>(); }
+            get { return (ProductRepository) GetRepositoryFor<ProductInfo>(); }
         }
         public ProductBrandRepository ProductBrandRepository
         {
@@ -301,7 +301,7 @@ namespace Pisa.VirtualStore.Dal.Core
         #region Store Repositories
         public StoreRepository StoreRepository
         {
-            get { return (StoreRepository) GetRepositoryFor<Store>(); }
+            get { return (StoreRepository) GetRepositoryFor<StoreInfo>(); }
         }
         public StoreAddressRepository StoreAddressRepository
         {

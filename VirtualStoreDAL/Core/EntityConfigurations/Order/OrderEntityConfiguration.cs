@@ -9,7 +9,7 @@ using Pisa.VirtualStore.Models.Order;
 
 namespace Pisa.VirtualStore.Dal.Core.EntityConfigurations.Order
 {
-    class OrderEntityConfiguration : BaseEntityConfiguration<Models.Order.Order>
+    class OrderEntityConfiguration : BaseEntityConfiguration<Models.Order.OrderInfo>
     {
         OrderEntityConfiguration() {
             MakeRequired(fk => fk.ClientBasket);

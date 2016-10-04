@@ -5,15 +5,15 @@ using Pisa.VirtualStore.Models.Store;
 
 namespace Pisa.VirtualStore.Dal.Test.Factories.Store
 {
-    class StoreFactory : BaseEntityFactory<Models.Store.Store>
+    class StoreFactory : BaseEntityFactory<Models.Store.StoreInfo>
     {
-        public override Models.Store.Store CreateInstance()
+        public override Models.Store.StoreInfo CreateInstance()
         {
-            return CreateInstance("Store Test 1", null, StoreStatus.GetInstance().ACTIVE, null);
+            return CreateInstance("StoreInfo Test 1", null, StoreStatus.GetInstance().ACTIVE, null);
         }
 
-        public Models.Store.Store CreateInstance(string name, GeneralMedia logo, GeneralStatus gs, Models.Store.Store parent) {
-            Models.Store.Store store = new Models.Store.Store();
+        public Models.Store.StoreInfo CreateInstance(string name, GeneralMedia logo, GeneralStatus gs, Models.Store.StoreInfo parent) {
+            Models.Store.StoreInfo store = new Models.Store.StoreInfo();
             store.GeneralMediaLogo = logo;
             store.GeneralStatus = gs;
             store.Name = name;

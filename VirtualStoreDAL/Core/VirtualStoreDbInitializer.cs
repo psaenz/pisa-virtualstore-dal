@@ -24,7 +24,7 @@
 
             #region Add SystemAuthor
             // Creates the SystemAuthor, it has to have the id "1" and IdSecurityUser = -1
-            AuditAuthor systemAuthor = new AuditAuthor() { SecurityUserId = -1, CurrentDate = DateTime.UtcNow};
+            AuditAuthor systemAuthor = new AuditAuthor() { SecurityUserId = -1, CurrentDate = DateTime.UtcNow };
             systemAuthor = context.AuditAuthors.Add(systemAuthor);
             context.SaveChangesAsync().Wait();
             context.CurrentAuthor = systemAuthor;
@@ -33,8 +33,8 @@
             #region Add Product Unit Of Measures
             var productUnitOfMeasures = new List<ProductUnitOfMeasure>
             {
-                new ProductUnitOfMeasure{Name="gramos", Symbol="gr"},
-                new ProductUnitOfMeasure{Name="litros", Symbol="lt"}
+                new ProductUnitOfMeasure{Name="Gramos", Symbol="gr"},
+                new ProductUnitOfMeasure{Name="Litros", Symbol="lt"}
             };
             productUnitOfMeasures.ForEach(um => context.ProductsUnitsOfMeasures.Add(um));
             #endregion
@@ -42,21 +42,33 @@
             #region Add General Statuses
             var generalStatus = new List<GeneralStatus>
             {
-                new GeneralStatus {Name= "Active", Type="ContactRegion", Description="Region is Active"  },
-                new GeneralStatus {Name= "Locked", Type="ContactRegion", Description="Region is Locked"  },
-                new GeneralStatus {Name= "Active", Type="SecurityAccount", Description="User Account is Active"  },
-                new GeneralStatus {Name= "Locked", Type="SecurityAccount", Description="User Account is Locked"  },
-                new GeneralStatus {Name= "Deleted", Type="SecurityAccount", Description="User Account is marked as Deleted"  },
-                new GeneralStatus {Name= "Active", Type="SecurityAction", Description="Action is Active"  },
-                new GeneralStatus {Name= "Locked", Type="SecurityAction", Description="Action  is Locked"  },
-                new GeneralStatus {Name= "Deleted", Type="SecurityAction", Description="Action is marked as Deleted"  },
-                new GeneralStatus {Name= "Active", Type="SecurityProfile", Description="Security Profile is Active"  },
-                new GeneralStatus {Name= "InActive", Type="SecurityProfile", Description="Security Profile is InActive"  },
-                new GeneralStatus {Name= "Active", Type="SecurityUser", Description="User is Active"  },
-                new GeneralStatus {Name= "Locked", Type="SecurityUser", Description="User is Locked"  },
-                new GeneralStatus {Name= "Deleted", Type="SecurityUser", Description="User is marked as Deleted"  },
-                new GeneralStatus {Name= "Active", Type="Store", Description="Store is Active"  },
-                new GeneralStatus {Name= "Locked", Type="Store", Description="Store is Locked"  }
+                new GeneralStatus { Type = "Brand", Name = "Editing", Description = "The Brand is in Edition mode"},
+                new GeneralStatus { Type = "Brand", Name = "Published", Description = "Brand is published"},
+                new GeneralStatus { Type = "Brand", Name = "UnPublished", Description = "Brand is unpublished"},
+                new GeneralStatus { Type = "ContactRegion", Name = "Active",  Description = "Region is Active"  },
+                new GeneralStatus { Type = "ContactRegion", Name = "Locked",  Description = "Region is Locked"  },
+                new GeneralStatus { Type = "Offer", Name = "Editing", Description = "The Offer is in Edition mode"},
+                new GeneralStatus { Type = "Offer", Name = "Published", Description = "Offer is published"},
+                new GeneralStatus { Type = "Offer", Name = "UnPublished", Description = "Offer is unpublished"},
+                new GeneralStatus { Type = "Offer", Name = "Cancelled", Description = "Offer was cancelled"},
+                new GeneralStatus { Type = "Order", Name = "Pending", Description = "Order is pending"},
+                new GeneralStatus { Type = "Order", Name = "Processing", Description = "Order is being processed" },
+                new GeneralStatus { Type = "Order", Name = "Delivering", Description = "Order is being delivered" },
+                new GeneralStatus { Type = "Order", Name = "Delivered", Description = "Order was delivered" },
+                new GeneralStatus { Type = "Order", Name = "Cancelled", Description = "Order was cancelled" },
+                new GeneralStatus { Type = "SecurityAccount", Name = "Active",  Description = "User Account is Active"  },
+                new GeneralStatus { Type = "SecurityAccount", Name = "Locked",  Description = "User Account is Locked"  },
+                new GeneralStatus { Type = "SecurityAccount", Name = "Deleted", Description = "User Account is marked as Deleted"  },
+                new GeneralStatus { Type = "SecurityAction", Name = "Active", Description = "Action is Active"  },
+                new GeneralStatus { Type = "SecurityAction", Name = "Locked", Description = "Action  is Locked"  },
+                new GeneralStatus { Type = "SecurityAction", Name = "Deleted", Description = "Action is marked as Deleted"  },
+                new GeneralStatus { Type = "SecurityProfile", Name = "Active", Description = "Security Profile is Active"  },
+                new GeneralStatus { Type = "SecurityProfile", Name = "InActive", Description = "Security Profile is InActive"  },
+                new GeneralStatus { Type = "SecurityUser", Name = "Active", Description = "User is Active"  },
+                new GeneralStatus { Type = "SecurityUser", Name = "Locked",  Description = "User is Locked"  },
+                new GeneralStatus { Type = "SecurityUser", Name = "Deleted", Description = "User is marked as Deleted"  },
+                new GeneralStatus { Type = "StoreInfo", Name = "Active",  Description = "StoreInfo is Active"  },
+                new GeneralStatus { Type = "StoreInfo", Name = "Locked",  Description = "StoreInfo is Locked"  }
             };
 
             generalStatus.ForEach(gs => context.GeneralStatuses.Add(gs));
@@ -76,11 +88,20 @@
             {
                 new SecurityProfileType{Name="Administrator" },
                 new SecurityProfileType{Name="Client"},
-                new SecurityProfileType{Name="Store"},
+                new SecurityProfileType{Name="StoreInfo"},
                 new SecurityProfileType{Name="Brand"},
                 new SecurityProfileType{Name="Provider"}
             };
             securityProfileTypes.ForEach(ct => context.SecurityProfileTypes.Add(ct));
+            #endregion 
+
+            #region Service Types
+            var serviceTypes = new List<ServiceType>
+            {
+                new ServiceType{Name="To Home", Description="The store will send the order to the address provided" },
+                new ServiceType{Name="To Pick Up", Description="The store will prepare the order for the client to pick it up"},
+            };
+            serviceTypes.ForEach(ct => context.ServicesTypes.Add(ct));
             #endregion 
 
             context.TrySaveChangesAsync().Wait();

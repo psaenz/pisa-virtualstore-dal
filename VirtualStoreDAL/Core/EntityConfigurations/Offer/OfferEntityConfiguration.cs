@@ -8,11 +8,11 @@ using Pisa.VirtualStore.Models.Offer;
 
 namespace Pisa.VirtualStore.Dal.Core.EntityConfigurations.Offer
 {
-    class OfferEntityConfiguration : BaseEntityConfiguration<Models.Offer.Offer>
+    class OfferEntityConfiguration : BaseEntityConfiguration<Models.Offer.OfferInfo>
     {
         OfferEntityConfiguration() {
-            MakeRequired(fk => fk.GeneralMedia);
-            MakeRequired(fk => fk.GeneralSchedule);
+            MakeOptional(fk => fk.GeneralMedia, fk => fk.GeneralMediaId);
+            MakeOptional(fk => fk.GeneralSchedule, fk => fk.GeneralScheduleId);
             MakeRequired(fk => fk.GeneralStatus);
             MakeRequired(fk => fk.Store);
         }

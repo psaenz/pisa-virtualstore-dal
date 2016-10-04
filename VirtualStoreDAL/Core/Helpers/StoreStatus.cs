@@ -9,7 +9,7 @@ namespace Pisa.VirtualStore.Dal.Core.Helpers
 
         private static StoreStatus _instance = null;
 
-        private StoreStatus() : base ("Store")
+        private StoreStatus() : base ("StoreInfo")
         {
             using (var context = VirtualStoreUnitOfWork.GetSystemVirtualStoreUnitOfWork())
             {

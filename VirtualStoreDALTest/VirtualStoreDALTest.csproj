@@ -60,17 +60,29 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CRUD\BaseCRUDTests.cs" />
+    <Compile Include="CRUD\CalculusCrudTests.cs" />
+    <Compile Include="CRUD\BaseCrudTests.cs" />
+    <Compile Include="CRUD\AuditCrudTests.cs" />
     <Compile Include="Factories\Base\BaseEntityFactory.cs" />
+    <Compile Include="Factories\Calculus\CalculusAppliedOfferFactory.cs" />
+    <Compile Include="Factories\Calculus\CalculusOrderFactory - Copy.cs" />
+    <Compile Include="Factories\Calculus\CalculusOrderFactory.cs" />
+    <Compile Include="Factories\Client\ClientBasketDetailFactory.cs" />
+    <Compile Include="Factories\Client\ClientBasketFactory.cs" />
+    <Compile Include="Factories\Offer\OfferFactory.cs" />
+    <Compile Include="Factories\Order\OrderFactory.cs" />
     <Compile Include="Factories\Contact\ContactRegionFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
+    <Compile Include="Factories\Product\ProductBrandFactory.cs" />
+    <Compile Include="Factories\Product\ProductInfoFactory.cs" />
+    <Compile Include="Factories\Security\SecurityAccountAddressFactory.cs" />
     <Compile Include="Factories\Security\SecurityActionFactory.cs" />
     <Compile Include="Factories\Security\SecurityAccountFactory.cs" />
     <Compile Include="Factories\Security\SecurityProfileActionFactory.cs" />
     <Compile Include="Factories\Security\SecurityProfileFactory.cs" />
     <Compile Include="Factories\Security\SecurityPersonFactory.cs" />
     <Compile Include="Factories\Security\SecurityUserFactory.cs" />
-    <Compile Include="CRUD\SecurityTests.cs" />
+    <Compile Include="CRUD\SecurityCrudTests.cs" />
     <Compile Include="Factories\Store\StoreFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

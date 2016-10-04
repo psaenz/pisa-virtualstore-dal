@@ -116,18 +116,18 @@ namespace Pisa.VirtualStore.Dal.Core
                 #endregion
 
                 #region configuring Offer namespace
-                    _prepareBaseModel<Offer>(modelBuilder);
+                    _prepareBaseModel<OfferInfo>(modelBuilder);
                     _prepareBaseModel<OffersDetail>(modelBuilder);
                 #endregion
 
                 #region configuring Order namespace
-                    _prepareBaseModel<Order>(modelBuilder);
+                    _prepareBaseModel<OrderInfo>(modelBuilder);
                     _prepareBaseModel<OrderSchedule>(modelBuilder);
                     _prepareBaseModel<OrderScheduleControl>(modelBuilder);
                 #endregion
 
                 #region configuring Product namespace
-                    _prepareBaseModel<Product>(modelBuilder);
+                    _prepareBaseModel<ProductInfo>(modelBuilder);
                     _prepareBaseModel<ProductBrand>(modelBuilder);
                     _prepareBaseModel<ProductType>(modelBuilder);
                     _prepareBaseModel<ProductUnitOfMeasure>(modelBuilder);
@@ -156,7 +156,7 @@ namespace Pisa.VirtualStore.Dal.Core
                 #endregion
 
                 #region configuring Sore namespace
-                    _prepareBaseModel<Store>(modelBuilder);
+                    _prepareBaseModel<StoreInfo>(modelBuilder);
                     _prepareBaseModel<StoreAddress>(modelBuilder);
                     _prepareBaseModel<StoreContact>(modelBuilder);
                     _prepareBaseModel<StoreProduct>(modelBuilder);
@@ -379,12 +379,12 @@ namespace Pisa.VirtualStore.Dal.Core
         public virtual DbSet<ContactType> ContactsTypes { get; set; }
         public virtual DbSet<GeneralMedia> GeneralMedias { get; set; }
         public virtual DbSet<GeneralStatus> GeneralStatuses { get; set; }
-        public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<OfferInfo> Offers { get; set; }
         public virtual DbSet<OffersDetail> OffersDetails { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderInfo> Orders { get; set; }
         public virtual DbSet<OrderSchedule> OrdersSchedules { get; set; }
         public virtual DbSet<OrderScheduleControl> OrdersSchedulesControls { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductInfo> Products { get; set; }
         public virtual DbSet<ProductBrand> ProductsBranches { get; set; }
         public virtual DbSet<ProductType> ProductsTypes { get; set; }
         public virtual DbSet<ProductUnitOfMeasure> ProductsUnitsOfMeasures { get; set; }
@@ -405,7 +405,7 @@ namespace Pisa.VirtualStore.Dal.Core
         public virtual DbSet<ServiceRule> ServicesRules { get; set; }
         public virtual DbSet<ServiceType> ServicesTypes { get; set; }
         public virtual DbSet<ServiceZone> ServicesZones { get; set; }
-        public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<StoreInfo> Stores { get; set; }
         public virtual DbSet<StoreAddress> StoresAddresses { get; set; }
         public virtual DbSet<StoreContact> StoresContacts { get; set; }
         public virtual DbSet<StoreProduct> StoresProducts { get; set; }
@@ -650,47 +650,47 @@ namespace Pisa.VirtualStore.Dal.Core
                 .HasForeignKey(e => e.IdGeneralStatus)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Offer>()
+            modelBuilder.Entity<OfferInfo>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Offer>()
+            modelBuilder.Entity<OfferInfo>()
                 .HasMany(e => e.ArchivedCalculusAppliedOffers)
-                .WithRequired(e => e.Offer)
+                .WithRequired(e => e.OfferInfo)
                 .HasForeignKey(e => e.IdOffer)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Offer>()
+            modelBuilder.Entity<OfferInfo>()
                 .HasMany(e => e.CalculusAppliedOffers)
-                .WithRequired(e => e.Offer)
+                .WithRequired(e => e.OfferInfo)
                 .HasForeignKey(e => e.IdOffer)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Offer>()
+            modelBuilder.Entity<OfferInfo>()
                 .HasMany(e => e.OfferDetails)
-                .WithRequired(e => e.Offer)
+                .WithRequired(e => e.OfferInfo)
                 .HasForeignKey(e => e.IdOffer)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<OrderInfo>()
                 .HasMany(e => e.ArchivedCalculusOrders)
-                .WithRequired(e => e.Order)
+                .WithRequired(e => e.OrderInfo)
                 .HasForeignKey(e => e.IdOrder)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<OrderInfo>()
                 .HasMany(e => e.CalculusOrders)
-                .WithRequired(e => e.Order)
+                .WithRequired(e => e.OrderInfo)
                 .HasForeignKey(e => e.IdOrder)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<OrderInfo>()
                 .HasMany(e => e.OrdersSchedules)
-                .WithRequired(e => e.Order)
+                .WithRequired(e => e.OrderInfo)
                 .HasForeignKey(e => e.IdOrder)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<OrderInfo>()
                 .HasMany(e => e.Orders1)
                 .WithRequired(e => e.Order1)
                 .HasForeignKey(e => e.IdBasket);
@@ -699,45 +699,45 @@ namespace Pisa.VirtualStore.Dal.Core
                 .Property(e => e.Description)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.ArchivedCalculusFreeProducts)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.ProductInfo)
                 .HasForeignKey(e => e.IdProducto_Products)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.BasketsDetails)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.ProductInfo)
                 .HasForeignKey(e => e.IdProduct)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.CalculusFreeProducts)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.ProductInfo)
                 .HasForeignKey(e => e.IdProduct)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.OfferDetails)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.ProductInfo)
                 .HasForeignKey(e => e.IdProduct)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.StoreProducts)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.ProductInfo)
                 .HasForeignKey(e => e.IdProduct)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<ProductInfo>()
                 .HasMany(e => e.ProductTypes)
                 .WithMany(e => e.Products)
                 .Map(m => m.ToTable("ProductsAndTypes", "VirtualStore").MapLeftKey("IdProduct").MapRightKey("IdProductType"));
@@ -996,65 +996,65 @@ namespace Pisa.VirtualStore.Dal.Core
                 .HasForeignKey(e => e.IdServiceZone)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.ArchivedCalculusOrders)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.CalculusOrders)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.Orders)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.SecurityStoreProfiles)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.ServiceByStores)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.ServiceZones)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.StoreContacts)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.StoreAddresses)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.StoreProducts)
-                .WithRequired(e => e.Store)
+                .WithRequired(e => e.StoreInfo)
                 .HasForeignKey(e => e.IdStore)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
+            modelBuilder.Entity<StoreInfo>()
                 .HasMany(e => e.Stores1)
                 .WithOptional(e => e.Store1)
                 .HasForeignKey(e => e.IdStoreParent);

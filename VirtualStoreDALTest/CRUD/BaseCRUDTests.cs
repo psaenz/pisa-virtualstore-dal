@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Pisa.VirtualStore.Dal.Test.CRUD
 {
     [TestClass]
-    public class BaseCRUDTests
+    public class BaseCrudTests
     {
         IList<IBaseModel> _objectsToDelete = new List<IBaseModel>();
 
@@ -50,7 +50,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
             }
         }
 
-        private async Task RunTest<T>(VirtualStoreUnitOfWork unitOfWork, T objectToSave, string propertyToChange, object propertyValue) where T : BaseModel
+        public async Task RunCrudTest<T>(VirtualStoreUnitOfWork unitOfWork, T objectToSave, string propertyToChange, object propertyValue) where T : BaseModel
         {
             IBaseRepository repository = unitOfWork.GetRepositoryFor(objectToSave);
             string objType = objectToSave.GetType().Name;

@@ -2,7 +2,7 @@
 
 namespace Pisa.VirtualStore.Dal.Core.Repositories.Order
 {
-    public class OrderRepository : BaseRepository<Models.Order.Order>
+    public class OrderRepository : BaseRepository<Models.Order.OrderInfo>
     {
         public OrderRepository(VirtualStoreDbContext context) : base(context)
         {

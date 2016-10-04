@@ -2,7 +2,7 @@
 
 namespace Pisa.VirtualStore.Dal.Core.Repositories.Store
 {
-    public class StoreRepository : BaseRepository<Models.Store.Store>
+    public class StoreRepository : BaseRepository<Models.Store.StoreInfo>
     {
         public StoreRepository(VirtualStoreDbContext context) : base(context) { }
     }

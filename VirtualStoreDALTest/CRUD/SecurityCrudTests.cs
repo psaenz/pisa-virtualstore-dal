@@ -1,22 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pisa.VirtualStore.Dal.Core;
 using Pisa.VirtualStore.Dal.Core.Helpers;
-using Pisa.VirtualStore.Dal.Core.Repositories.Base;
 using Pisa.VirtualStore.Dal.Test.Factories;
-using Pisa.VirtualStore.Models.Audit;
-using Pisa.VirtualStore.Models.Base;
 using Pisa.VirtualStore.Models.Contact;
 using Pisa.VirtualStore.Models.Security;
 using Pisa.VirtualStore.Models.Store;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pisa.VirtualStore.Dal.Test.CRUD
 {
     [TestClass]
-    public class SecurityTests : BaseCRUDTests
+    public class SecurityCrudTests : BaseCrudTests
     {
         [TestMethod]
         [TestCategory("DAL"), TestCategory("DAL.CRUD"), TestCategory("DAL.Security"), TestCategory("DAL.Security.CRUD")]
@@ -43,7 +37,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 acc.GeneralStatusId = status;
                 acc.SecurityUserOwnerId = securityOwner;
 
-                await RunTest(unitOfWork, acc, "GeneralStatusId", SecurityAccountStatuses.GetInstance().DELETED.Id);
+                await RunCrudTest(unitOfWork, acc, "GeneralStatusId", SecurityAccountStatuses.GetInstance().DELETED.Id);
             }
         }
 
@@ -86,7 +80,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 accAddress.SecurityAccountId = accountId;
                 accAddress.ContactAddressId = addressId;
 
-                await RunTest(unitOfWork, accAddress, "ContactAddressId", address2Id);
+                await RunCrudTest(unitOfWork, accAddress, "ContactAddressId", address2Id);
             }
         }
 
@@ -128,7 +122,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 accContact.SecurityAccountId = accountId;
                 accContact.ContactId = contactId;
 
-                await RunTest(unitOfWork, accContact, "ContactId", contact2Id);
+                await RunCrudTest(unitOfWork, accContact, "ContactId", contact2Id);
             }
         }
 
@@ -148,11 +142,11 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 InsertObjectInDB(unitOfWork, acc.GeneralStatus);
                 InsertObjectInDB(unitOfWork, acc.SecurityUserOwner);
 
-                Store store = EntitiesFactory.StoreFactory.CreateInstance();
+                StoreInfo store = EntitiesFactory.StoreFactory.CreateInstance();
                 InsertObjectInDB(unitOfWork, unitOfWork.StoreRepository.Insert(store));
 
-                Store store2 = EntitiesFactory.StoreFactory.CreateInstance();
-                store2.Name = "Store 2";
+                StoreInfo store2 = EntitiesFactory.StoreFactory.CreateInstance();
+                store2.Name = "StoreInfo 2";
                 InsertObjectInDB(unitOfWork, unitOfWork.StoreRepository.Insert(store2));
 
                 int objs = await unitOfWork.TrySaveChangesAsync();
@@ -167,7 +161,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 accStore.SecurityAccountId = accountId;
                 accStore.StoreId = storeId;
 
-                await RunTest(unitOfWork, accStore, "StoreId", store2Id);
+                await RunCrudTest(unitOfWork, accStore, "StoreId", store2Id);
             }
         }
 
@@ -212,7 +206,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 accUser.SecurityUserId = securityUserId;
                 accUser.SecurityProfileId = profileId;
 
-                await RunTest(unitOfWork, accUser, "SecurityProfileId", profile2Id);
+                await RunCrudTest(unitOfWork, accUser, "SecurityProfileId", profile2Id);
             }
         }
 
@@ -225,7 +219,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 SecurityAction action = EntitiesFactory.SecurityActionFactory.CreateInstance();
                 action.GeneralStatusId = action.GeneralStatus.Id;
                 action.GeneralStatus = null;
-                await RunTest(unitOfWork, action, "ActionToExecute", "Test Action To Execute Updated");
+                await RunCrudTest(unitOfWork, action, "ActionToExecute", "Test Action To Execute Updated");
             }
         }
 
@@ -246,7 +240,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 SecurityDefaultProfile sdp = new SecurityDefaultProfile();
                 sdp.SecurityProfileId = securityProfileId;
                 sdp.SecurityProfileTypeId = SecurityProfileTypes.GetInstance().STORE.Id;
-                await RunTest(unitOfWork, sdp, "SecurityProfileTypeId", SecurityProfileTypes.GetInstance().CLIENT.Id);
+                await RunCrudTest(unitOfWork, sdp, "SecurityProfileTypeId", SecurityProfileTypes.GetInstance().CLIENT.Id);
             }
         }
 
@@ -269,7 +263,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 sp.Password = "testPassword";
                 sp.Sequence = 0;
                 sp.SecurityUserId = userId;
-                await RunTest(unitOfWork, sp, "Sequence", 1);
+                await RunCrudTest(unitOfWork, sp, "Sequence", 1);
             }
         }
 
@@ -280,7 +274,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
             using (var unitOfWork = new VirtualStoreUnitOfWork(TestAuthor))
             {
                 SecurityPerson person = EntitiesFactory.SecurityPersonFactory.CreateInstance("psaenz@gmail.com", false, "Pedro", "Saenz", "Avila");
-                await RunTest(unitOfWork, person, "Email", "psaenz2@gmail.com");
+                await RunCrudTest(unitOfWork, person, "Email", "psaenz2@gmail.com");
             }
         }
 
@@ -294,7 +288,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 sp.GeneralStatusId = SecurityProfileStatuses.GetInstance().ACTIVE.Id;
                 sp.Name = "Profile Test";
                 sp.SecurityProfileTypeId = SecurityProfileTypes.GetInstance().STORE.Id;
-                await RunTest(unitOfWork, sp, "Name", "Profile Test 2");
+                await RunCrudTest(unitOfWork, sp, "Name", "Profile Test 2");
             }
         }
 
@@ -322,7 +316,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 spa.Available = true;
                 spa.SecurityActionId = actionId;
                 spa.SecurityProfileId = profileId;
-                await RunTest(unitOfWork, spa, "Available", false);
+                await RunCrudTest(unitOfWork, spa, "Available", false);
             }
         }
 
@@ -334,7 +328,7 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
             {
                 SecurityProfileType spt = new SecurityProfileType();
                 spt.Name = "Security Profile Type Test";
-                await RunTest(unitOfWork, spt, "Name", "Security Profile Type Test 2");
+                await RunCrudTest(unitOfWork, spt, "Name", "Security Profile Type Test 2");
             }
         }
 
@@ -367,38 +361,8 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 su.MustChangeThePassword = false;
                 su.Password = "password";
                 su.SecurityPersonId = personId;
-                await RunTest(unitOfWork, su, "LastAccountUsedId", null);
+                await RunCrudTest(unitOfWork, su, "LastAccountUsedId", null);
             }
-        }
-
-        private async Task RunTest<T>(VirtualStoreUnitOfWork unitOfWork, T objectToSave, string propertyToChange, object propertyValue) where T : BaseModel
-        {
-            IBaseRepository repository = unitOfWork.GetRepositoryFor(objectToSave);
-            string objType = objectToSave.GetType().Name;
-            int countBeforeTest = repository.GetAll().Count();
-            InsertObjectInDB(unitOfWork, repository.Insert(objectToSave));
-
-            int i = await repository.SaveAsync();
-            Assert.AreEqual(1, i, i + " " + objType + " were saved, only 1 was expected.");
-            Assert.AreEqual(1, repository.GetAll().Count() - countBeforeTest, objType +" wasn't added");
-            Assert.AreNotEqual(0, objectToSave.Id, objType +" PK wasn't set.");
-
-            T objectSaved = (T) repository.GetById(objectToSave.Id);
-            Assert.AreSame(objectToSave, objectSaved, objType + " is not cached by the EF");
-
-            objectToSave.SetPropertyValue(propertyToChange, propertyValue);
-            i = await repository.SaveAsync();
-            Assert.AreEqual(1, i, i + " objects were updated. 1 was expected");
-            Assert.AreEqual(1, repository.GetAll().Count() - countBeforeTest, objType + " was added during update.");
-
-            objectSaved = (T) repository.Delete(objectToSave.Id);
-            i = await repository.SaveAsync();
-            Assert.AreEqual(1, i, objType + " wasn't deleted");
-            Assert.AreEqual(repository.GetAll().Count(), countBeforeTest, objType + " wasn't removed");
-            Assert.AreSame(objectToSave, objectSaved, objType + " is not cached by the EF");
-
-            T objectDeleted = (T) repository.GetById(objectSaved.Id);
-            Assert.IsNull(objectDeleted, objType + " wasn't deleted");
         }
     }
 }

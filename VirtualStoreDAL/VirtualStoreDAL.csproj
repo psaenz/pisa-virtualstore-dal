@@ -112,6 +112,11 @@
     <Compile Include="Core\EntityConfigurations\Store\StoreZoneEntityConfiguration.cs" />
     <Compile Include="Core\EntityConfigurations\Store\StoreEntityConfiguration.cs" />
     <Compile Include="Core\Helpers\BaseStatus.cs" />
+    <Compile Include="Core\Helpers\BrandStatuses.cs" />
+    <Compile Include="Core\Helpers\ProductUnitOfMeasures.cs" />
+    <Compile Include="Core\Helpers\OfferStatuses.cs" />
+    <Compile Include="Core\Helpers\ServiceTypes.cs" />
+    <Compile Include="Core\Helpers\OrderStatuses.cs" />
     <Compile Include="Core\Helpers\SecurityProfileTypes.cs" />
     <Compile Include="Core\Helpers\SecurityProfileStatuses.cs" />
     <Compile Include="Core\Helpers\SecurityActionStatuses.cs" />

@@ -18,7 +18,7 @@ namespace Pisa.VirtualStore.Dal.Core.Helpers
             {
                 ADMINISTRATOR = context.SecurityProfileTypeRepository.GetByName("Administrator");
                 CLIENT = context.SecurityProfileTypeRepository.GetByName("Client");
-                STORE = context.SecurityProfileTypeRepository.GetByName("Store");
+                STORE = context.SecurityProfileTypeRepository.GetByName("StoreInfo");
                 BRAND = context.SecurityProfileTypeRepository.GetByName("Brand");
                 PROVIDER = context.SecurityProfileTypeRepository.GetByName("Provider");
             }

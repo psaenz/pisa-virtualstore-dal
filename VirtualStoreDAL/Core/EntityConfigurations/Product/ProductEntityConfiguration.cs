@@ -8,10 +8,10 @@ using Pisa.VirtualStore.Models.Product;
 
 namespace Pisa.VirtualStore.Dal.Core.EntityConfigurations.Product
 {
-    class ProductEntityConfiguration : BaseEntityConfiguration<Models.Product.Product>
+    class ProductEntityConfiguration : BaseEntityConfiguration<Models.Product.ProductInfo>
     {
         ProductEntityConfiguration() {
-            MakeRequired(fk => fk.GeneralMedia);
+            MakeOptional(fk => fk.GeneralMedia, fk=> fk.GeneralMediaId);
             MakeRequired(fk => fk.ProductBrand);
             MakeRequired(fk => fk.ProductUnitOfMeasure);
         }

@@ -8,7 +8,7 @@ using Pisa.VirtualStore.Models.Store;
 
 namespace Pisa.VirtualStore.Dal.Core.EntityConfigurations.Store
 {
-    class StoreEntityConfiguration : BaseEntityConfiguration<Models.Store.Store>
+    class StoreEntityConfiguration : BaseEntityConfiguration<Models.Store.StoreInfo>
     {
         StoreEntityConfiguration() {
             MakeOptional(fk => fk.GeneralMediaLogo, fk => fk.GeneralMediaLogoId);
