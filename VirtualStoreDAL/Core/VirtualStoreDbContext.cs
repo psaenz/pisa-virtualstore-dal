@@ -103,7 +103,7 @@ namespace Pisa.VirtualStore.Dal.Core
                 #endregion
 
                 #region configuring Contact namespace
-                    _prepareBaseModel<Contact>(modelBuilder);
+                    _prepareBaseModel<ContactInfo>(modelBuilder);
                     _prepareBaseModel<ContactAddress>(modelBuilder);
                     _prepareBaseModel<ContactRegion>(modelBuilder);
                     _prepareBaseModel<ContactType>(modelBuilder);
@@ -373,11 +373,12 @@ namespace Pisa.VirtualStore.Dal.Core
         public virtual DbSet<CalculusOrder> CalculusOrders { get; set; }
         public virtual DbSet<CalculusServiceCost> CalculusServicesCosts { get; set; }
         public virtual DbSet<ClientFeedback> ClientsFeedbacks { get; set; }
-        public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<ContactInfo> Contacts { get; set; }
         public virtual DbSet<ContactAddress> ContactsAddresses { get; set; }
         public virtual DbSet<ContactRegion> ContactsRegions { get; set; }
         public virtual DbSet<ContactType> ContactsTypes { get; set; }
         public virtual DbSet<GeneralMedia> GeneralMedias { get; set; }
+        public virtual DbSet<GeneralMediaType> GeneralMediaTypes { get; set; }
         public virtual DbSet<GeneralStatus> GeneralStatuses { get; set; }
         public virtual DbSet<OfferInfo> Offers { get; set; }
         public virtual DbSet<OffersDetail> OffersDetails { get; set; }
@@ -505,18 +506,18 @@ namespace Pisa.VirtualStore.Dal.Core
                 .Property(e => e.Answerd)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Contact>()
+            modelBuilder.Entity<ContactInfo>()
                 .Property(e => e.Contact1)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Contact>()
+            modelBuilder.Entity<ContactInfo>()
                 .HasMany(e => e.SecurityPersonsContacts)
-                .WithOptional(e => e.Contact)
+                .WithOptional(e => e.ContactInfo)
                 .HasForeignKey(e => e.IdContact);
 
-            modelBuilder.Entity<Contact>()
+            modelBuilder.Entity<ContactInfo>()
                 .HasMany(e => e.StoreContacts)
-                .WithRequired(e => e.Contact)
+                .WithRequired(e => e.ContactInfo)
                 .HasForeignKey(e => e.IdContact)
                 .WillCascadeOnDelete(false);
 

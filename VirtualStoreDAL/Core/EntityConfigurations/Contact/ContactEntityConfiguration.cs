@@ -8,7 +8,7 @@ using Pisa.VirtualStore.Models.Contact;
 
 namespace Pisa.VirtualStore.Dal.Core.EntityConfigurations.Contact
 {
-    class ContactEntityConfiguration : BaseEntityConfiguration<Models.Contact.Contact>
+    class ContactEntityConfiguration : BaseEntityConfiguration<Models.Contact.ContactInfo>
     {
         ContactEntityConfiguration() {
             MakeRequired(fk => fk.ContactType);

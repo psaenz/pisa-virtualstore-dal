@@ -45,8 +45,16 @@
                 new GeneralStatus { Type = "Brand", Name = "Editing", Description = "The Brand is in Edition mode"},
                 new GeneralStatus { Type = "Brand", Name = "Published", Description = "Brand is published"},
                 new GeneralStatus { Type = "Brand", Name = "UnPublished", Description = "Brand is unpublished"},
+                new GeneralStatus { Type = "Contact", Name = "Editing",  Description = "Contact is being edited and hasn't been confirmed"  },
+                new GeneralStatus { Type = "Contact", Name = "Confirmed",  Description = "Contact has been confirmed"  },
                 new GeneralStatus { Type = "ContactRegion", Name = "Active",  Description = "Region is Active"  },
                 new GeneralStatus { Type = "ContactRegion", Name = "Locked",  Description = "Region is Locked"  },
+
+                new GeneralStatus { Type = "GeneralSchedule", Name = "Editing", Description = "The Schedule is being edited"},
+                new GeneralStatus { Type = "GeneralSchedule", Name = "Deleted", Description = "The Schedule was marked as deleted"},
+                new GeneralStatus { Type = "GeneralSchedule", Name = "Running", Description = "The Schedule is running"},
+                new GeneralStatus { Type = "GeneralSchedule", Name = "Cancelled", Description = "The Schedule was cancelled"},
+
                 new GeneralStatus { Type = "Offer", Name = "Editing", Description = "The Offer is in Edition mode"},
                 new GeneralStatus { Type = "Offer", Name = "Published", Description = "Offer is published"},
                 new GeneralStatus { Type = "Offer", Name = "UnPublished", Description = "Offer is unpublished"},
@@ -70,7 +78,6 @@
                 new GeneralStatus { Type = "StoreInfo", Name = "Active",  Description = "StoreInfo is Active"  },
                 new GeneralStatus { Type = "StoreInfo", Name = "Locked",  Description = "StoreInfo is Locked"  }
             };
-
             generalStatus.ForEach(gs => context.GeneralStatuses.Add(gs));
             #endregion
 
@@ -81,6 +88,16 @@
                 new ContactType {Name= "Cell Phone"}
             };
             contactTypes.ForEach(ct => context.ContactsTypes.Add(ct));
+            #endregion
+
+            #region Contact Types
+            var mediaTypes = new List<GeneralMediaType>
+            {
+                new GeneralMediaType {Name= "Image"},
+                new GeneralMediaType {Name= "Video"},
+                new GeneralMediaType {Name= "PDF"}
+            };
+            mediaTypes.ForEach(mt => context.GeneralMediaTypes.Add(mt));
             #endregion 
 
             #region Security Profile Types

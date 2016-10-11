@@ -2,6 +2,7 @@
 using Pisa.VirtualStore.Dal.Test.Factories.Security;
 using Pisa.VirtualStore.Dal.Test.Factories.Store;
 using Pisa.VirtualStore.Dal.Test.Factories.Order;
+using Pisa.VirtualStore.Dal.Test.Factories.General;
 
 namespace Pisa.VirtualStore.Dal.Test.Factories
 {
@@ -18,6 +19,8 @@ namespace Pisa.VirtualStore.Dal.Test.Factories
         public static ClientBasketFactory ClientBasketFactory = new ClientBasketFactory();
 
         public static ContactRegionFactory ContactRegionFactory = new ContactRegionFactory();
+
+        public static GeneralMediaFactory GeneralMediaFactory = new GeneralMediaFactory();
 
         public static OfferInfoFactory OfferInfoFactory = new OfferInfoFactory();
 

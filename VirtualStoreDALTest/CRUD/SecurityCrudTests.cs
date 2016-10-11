@@ -100,14 +100,14 @@ namespace Pisa.VirtualStore.Dal.Test.CRUD
                 InsertObjectInDB(unitOfWork, acc.GeneralStatus);
                 InsertObjectInDB(unitOfWork, acc.SecurityUserOwner);
 
-                Contact contact1 = new Contact();
+                ContactInfo contact1 = new ContactInfo();
                 contact1.ContactTypeId = ContactTypes.GetInstance().PHONE.Id;
-                contact1.Details = "Contact 1";
+                contact1.Details = "ContactInfo 1";
                 InsertObjectInDB(unitOfWork, unitOfWork.ContactRepository.Insert(contact1));
 
-                Contact contact2 = new Contact();
+                ContactInfo contact2 = new ContactInfo();
                 contact2.ContactTypeId = ContactTypes.GetInstance().CELL_PHONE.Id;
-                contact2.Details = "Contact 2";
+                contact2.Details = "ContactInfo 2";
                 InsertObjectInDB(unitOfWork, unitOfWork.ContactRepository.Insert(contact2));
 
                 int objs = await unitOfWork.TrySaveChangesAsync();

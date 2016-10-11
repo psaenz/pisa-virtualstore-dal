@@ -148,7 +148,7 @@ namespace Pisa.VirtualStore.Dal.Core
         #region Contact Repositories
         public ContactRepository ContactRepository
         {
-            get { return (ContactRepository) GetRepositoryFor<Contact>(); }
+            get { return (ContactRepository) GetRepositoryFor<ContactInfo>(); }
         }
         public ContactAddressRepository ContactAddressRepository
         {
@@ -169,6 +169,11 @@ namespace Pisa.VirtualStore.Dal.Core
         {
             get { return (GeneralMediaRepository) GetRepositoryFor<GeneralMedia>(); }
         }
+        public GeneralMediaTypeRepository GeneralMediaTypeRepository
+        {
+            get { return (GeneralMediaTypeRepository)GetRepositoryFor<GeneralMediaType>(); }
+        }
+
         public GeneralScheduleRepository GeneralScheduleRepository
         {
             get { return (GeneralScheduleRepository) GetRepositoryFor<GeneralSchedule>(); }

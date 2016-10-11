@@ -113,6 +113,9 @@
     <Compile Include="Core\EntityConfigurations\Store\StoreEntityConfiguration.cs" />
     <Compile Include="Core\Helpers\BaseStatus.cs" />
     <Compile Include="Core\Helpers\BrandStatuses.cs" />
+    <Compile Include="Core\Helpers\ContactInfoStatuses.cs" />
+    <Compile Include="Core\Helpers\GeneralScheduleStatuses.cs" />
+    <Compile Include="Core\Helpers\GeneralMediaTypes.cs" />
     <Compile Include="Core\Helpers\ProductUnitOfMeasures.cs" />
     <Compile Include="Core\Helpers\OfferStatuses.cs" />
     <Compile Include="Core\Helpers\ServiceTypes.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Core\Repositories\Contact\ContactRegionRepository.cs" />
     <Compile Include="Core\Repositories\Contact\ContactTypeRepository.cs" />
     <Compile Include="Core\Repositories\Contact\ContactRepository.cs" />
+    <Compile Include="Core\Repositories\General\GeneralMediaTypeRepository.cs" />
     <Compile Include="Core\Repositories\General\GeneralMediaRepository.cs" />
     <Compile Include="Core\Repositories\General\GeneralScheduleRepository.cs" />
     <Compile Include="Core\Repositories\General\GeneralStatusRepository.cs" />
